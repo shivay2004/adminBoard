@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton, useTheme } from "@mui/material";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -28,10 +28,11 @@ export default function ChartCard({
   data,
   dataKey,
   xKey,
-  type,
-  color,
+  type = "line",
+  color = "linear-gradient(195deg, #49a3f1 0%, #1A73E8 100%)",
   loading = false,
 }) {
+  const theme = useTheme();
   const labels = data?.map((item) => item[xKey]) || [];
   const values = data?.map((item) => item[dataKey]) || [];
 
@@ -41,36 +42,59 @@ export default function ChartCard({
       {
         label: title,
         data: values,
-        backgroundColor: color,
-        borderColor: "#fff",
-        borderWidth: 2,
-        fill: true,
+        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        borderColor: "rgba(255, 255, 255, 0.8)",
+        borderWidth: 4,
+        borderRadius: type === "bar" ? 20 : undefined,
+        borderSkipped: false,
+        barPercentage: 0.25,
+        fill: false,
         tension: 0.4,
       },
     ],
   };
 
-  const options = {
+  const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
+      title: { display: false },
       tooltip: { mode: "index", intersect: false },
     },
     scales: {
       x: {
-        ticks: { color: "#fff" },
-        grid: { color: "#ffffff55" },
+        grid: {
+          color: type === "bar" ? "#ffffff33" : false,
+          borderDash: [5, 5],
+        },
+        ticks: {
+          color: "#ffffffdd",
+          font: { size: 12 },
+        },
+        border: {
+          display: false,
+        },
       },
       y: {
-        ticks: { color: "#fff" },
-        grid: { color: "#ffffff55" },
+        beginAtZero: true,
+        grid: {
+          color: "#ffffff33",
+          borderDash: [5, 5],
+        },
+        ticks: {
+          color: "#ffffffdd",
+          font: { size: 12 },
+        },
+        border: {
+          display: false,
+        },
       },
     },
   };
 
   return (
-    <Paper
-      elevation={3}
+    <Box
       sx={{
         borderRadius: 3,
         p: 0,
@@ -80,9 +104,11 @@ export default function ChartCard({
         flexDirection: "column",
         alignItems: "center",
         pb: 3,
+        bgcolor: theme.palette.background.paper,
+        boxShadow: 3,
       }}
     >
-      {/* Chart container */}
+      {/* Floating Chart Section */}
       <Box
         sx={{
           position: "absolute",
@@ -90,22 +116,22 @@ export default function ChartCard({
           width: "90%",
           height: 180,
           background: color,
-          borderRadius: 3,
-          boxShadow: 3,
+          borderRadius: "16px",
+          boxShadow: "0 5px 10px rgba(0, 0, 0, 0.2)",
           px: 2,
           pt: 1,
         }}
       >
         {loading ? (
-          <Skeleton variant="rectangular" height="100%" />
+          <Skeleton variant="rounded" width="100%" height="100%" />
         ) : type === "line" ? (
-          <Line data={chartData} options={options} />
+          <Line data={chartData} options={chartOptions} />
         ) : (
-          <Bar data={chartData} options={options} />
+          <Bar data={chartData} options={chartOptions} />
         )}
       </Box>
 
-      {/* Text content */}
+      {/* Card Content */}
       <Box sx={{ mt: 22, px: 3, alignSelf: "flex-start", width: "100%" }}>
         <Typography variant="subtitle1" fontWeight={600}>
           {loading ? <Skeleton width="40%" /> : title}
@@ -129,6 +155,6 @@ export default function ChartCard({
           )}
         </Typography>
       </Box>
-    </Paper>
+    </Box>
   );
 }

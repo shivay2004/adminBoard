@@ -1,6 +1,5 @@
 import {
   Box,
-  Card,
   CardContent,
   Typography,
   IconButton,
@@ -21,12 +20,13 @@ export default function PropertyCard({
   const theme = useTheme();
 
   return (
-    <Card
+    <Box
       sx={{
         borderRadius: 3,
         overflow: "visible",
         transition: "all 0.3s ease",
         boxShadow: 3,
+        bgcolor: theme.palette.background.paper,
         "&:hover .hover-img": {
           transform: "translateY(-40px)",
         },
@@ -152,6 +152,6 @@ export default function PropertyCard({
           )}
         </Box>
       </CardContent>
-    </Card>
+    </Box>
   );
 }

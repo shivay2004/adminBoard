@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Badge,
   IconButton,
@@ -27,14 +27,12 @@ export default function NotificationMenu() {
 
   return (
     <>
-      {/* Bell with Badge */}
       <IconButton onClick={handleClick}>
         <Badge badgeContent={9} color="error">
           <NotificationsIcon sx={{ color: theme.palette.text.secondary }} />
         </Badge>
       </IconButton>
 
-      {/* Dropdown Menu */}
       <Menu
         anchorEl={anchorEl}
         open={open}

@@ -1,4 +1,4 @@
-import { Paper, Box, Typography, Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton, useTheme, Paper } from "@mui/material";
 import ExploreIcon from "@mui/icons-material/Explore";
 import { PolarArea } from "react-chartjs-2";
 import {
@@ -11,11 +11,20 @@ import {
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip);
 
 export default function PolarAreaChartCard({ data, loading }) {
+  const theme = useTheme();
+
   if (loading || !data) {
     return (
-      <Paper elevation={3} sx={{ borderRadius: 4, p: 2 }}>
-        <Skeleton variant="rectangular" height={400} />
-      </Paper>
+      <Box
+        sx={{
+          borderRadius: 4,
+          p: 2,
+          height: 460,
+          background: theme.palette.background.paper,
+        }}
+      >
+        <Skeleton variant="rectangular" height="100%" />
+      </Box>
     );
   }
 
@@ -56,34 +65,35 @@ export default function PolarAreaChartCard({ data, loading }) {
     scales: {
       r: {
         grid: {
-          color: "#d3d3d3",
+          color: theme.palette.divider,
           circular: true,
         },
         angleLines: {
-          color: "#d3d3d3",
+          color: theme.palette.divider,
         },
         ticks: {
           backdropColor: "transparent",
-          color: "#999",
+          color: theme.palette.text.secondary,
         },
       },
     },
   };
 
   return (
-    <Paper
+    <Box
+      component={Paper}
       elevation={3}
       sx={{
         borderRadius: 4,
         p: 3,
         pt: 1,
-        height: 460, // Increased height
+        height: 460,
         position: "relative",
+        background: theme.palette.background.paper,
         display: "flex",
         flexDirection: "column",
       }}
     >
-      {/* Floating Icon */}
       <Box
         sx={{
           position: "absolute",
@@ -103,7 +113,6 @@ export default function PolarAreaChartCard({ data, loading }) {
         <ExploreIcon fontSize="large" />
       </Box>
 
-      {/* Title beside icon */}
       <Box ml={10} mb={2}>
         <Typography variant="h6" fontWeight="bold">
           Polar chart
@@ -113,10 +122,9 @@ export default function PolarAreaChartCard({ data, loading }) {
         </Typography>
       </Box>
 
-      {/* Chart */}
       <Box height={360}>
         <PolarArea data={chartData} options={options} />
       </Box>
-    </Paper>
+    </Box>
   );
 }

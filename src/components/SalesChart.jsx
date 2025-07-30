@@ -107,8 +107,9 @@ export default function SalesChart({ channels, revenueData, loading }) {
     <Box
       sx={{
         display: "flex",
-        gap: 2,
+        flexDirection: { xs: "row", md: "row" }, // Use md for desktop
         flexWrap: "wrap",
+        gap: 2,
         mt: 1,
         alignItems: "stretch",
       }}
@@ -116,9 +117,10 @@ export default function SalesChart({ channels, revenueData, loading }) {
       {/* Channels Pie Chart */}
       <Box
         sx={{
-          flex: "1 1 33%",
-          maxWidth: "32%",
-          minWidth: 300,
+          width: { xs: "100%", md: "auto" },
+          flex: { xs: "1 1 100%", md: "1 1 0" }, // 1 part on desktop
+          minWidth: 250,
+          maxWidth: { xs: "100%", md: "32.2%" },
           p: 2,
           bgcolor: p.background.paper,
           borderRadius: 2,
@@ -214,8 +216,10 @@ export default function SalesChart({ channels, revenueData, loading }) {
       {/* Revenue Line Chart */}
       <Box
         sx={{
-          flex: "0 0 65%",
-          minWidth: 400,
+          width: { xs: "100%", md: "auto" },
+          flex: { xs: "1 1 100%", md: "2 1 0" }, // 2 parts on desktop
+          minWidth: 250,
+          maxWidth: { xs: "100%", md: "65.5%" },
           p: 2,
           bgcolor: p.background.paper,
           borderRadius: 2,

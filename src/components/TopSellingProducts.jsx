@@ -1,13 +1,6 @@
 // src/components/TopSellingProducts.jsx
 import React from "react";
-import {
-  Box,
-  Paper,
-  Typography,
-  Avatar,
-  Skeleton,
-  useTheme,
-} from "@mui/material";
+import { Box, Typography, Avatar, Skeleton, useTheme } from "@mui/material";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import img from "../img/blue-shoe.d71240678a32ce1184bb.jpeg";
@@ -17,7 +10,16 @@ export default function TopSellingProducts({ data = [], loading = false }) {
   const displayed = loading ? Array.from({ length: 5 }) : data;
 
   return (
-    <Paper sx={{ p: 3, borderRadius: 3, mt: 2, mr: 2.4 }}>
+    <Box
+      sx={{
+        p: 3,
+        borderRadius: 3,
+        mt: 2,
+        mr: 2.4,
+        bgcolor: theme.palette.background.paper,
+        boxShadow: 3,
+      }}
+    >
       {/* Title */}
       <Typography variant="h6" fontWeight={700} mb={3}>
         Top Selling Products
@@ -141,6 +143,6 @@ export default function TopSellingProducts({ data = [], loading = false }) {
           </Box>
         </Box>
       ))}
-    </Paper>
+    </Box>
   );
 }

@@ -1,24 +1,23 @@
-import React from "react";
 import {
   Box,
   Typography,
-  Paper,
   Divider,
   Avatar,
   useTheme,
   Skeleton,
 } from "@mui/material";
 
-import us from "../img/download.png";
-import de from "../img/download.png";
-import gb from "../img/download.png";
-import br from "../img/download.png";
-
+import us from "../img/usa.png";
+import de from "../img/germany.png";
+import gb from "../img/britain.png";
+import br from "../img/brasil.png";
+import au from "../img/australia.png";
 const flags = {
   "United States": us,
   Germany: de,
   "Great Britain": gb,
   Brasil: br,
+  Australia: au,
 };
 
 export default function SalesByCountryCompact({
@@ -32,7 +31,7 @@ export default function SalesByCountryCompact({
     : data.slice(0, numCountries);
 
   return (
-    <Paper
+    <Box
       sx={{
         borderRadius: 2,
         p: 2.5,
@@ -41,13 +40,14 @@ export default function SalesByCountryCompact({
         boxShadow: "0px 4px 10px rgba(0,0,0,0.04)",
         display: "flex",
         flexDirection: "column",
+        bgcolor: theme.palette.background.paper,
       }}
     >
       {/* Title */}
       <Typography
         variant="h6"
         fontWeight={700}
-        sx={{ color: "#344767", fontSize: "1rem", mb: 1.5 }}
+        sx={{ color: theme.palette.text.primary, fontSize: "1rem", mb: 1.5 }}
       >
         Sales by Country
       </Typography>
@@ -100,6 +100,6 @@ export default function SalesByCountryCompact({
           </Box>
         </Box>
       ))}
-    </Paper>
+    </Box>
   );
 }

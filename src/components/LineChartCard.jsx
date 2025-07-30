@@ -1,13 +1,14 @@
-// src/components/LineChartCard.jsx
-import { Paper, Box, Typography, Skeleton } from "@mui/material";
+import { Paper, Box, Typography, Skeleton, useTheme } from "@mui/material";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { Line } from "react-chartjs-2";
 
 export default function LineChartCard({ data, loading }) {
+  const theme = useTheme();
+
   if (loading || !data) {
     return (
-      <Paper elevation={3} sx={{ borderRadius: 4, p: 2 }}>
-        <Skeleton variant="rectangular" height={300} />
+      <Paper elevation={3} sx={{ borderRadius: 4, p: 2, height: 380 }}>
+        <Skeleton variant="rectangular" height="100%" />
       </Paper>
     );
   }
@@ -38,14 +39,33 @@ export default function LineChartCard({ data, loading }) {
       legend: { display: false },
     },
     scales: {
-      y: { beginAtZero: true },
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: theme.palette.divider,
+          borderDash: [4],
+        },
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+      },
     },
   };
 
   return (
-    <Paper
+    <Box
+      component={Paper}
       elevation={3}
-      sx={{ borderRadius: 4, p: 3, pt: 1, position: "relative", height: 380 }}
+      sx={{
+        borderRadius: 4,
+        p: 3,
+        pt: 1,
+        position: "relative",
+        height: 380,
+        background: theme.palette.background.paper,
+      }}
     >
       {/* Floating Icon */}
       <Box
@@ -71,7 +91,7 @@ export default function LineChartCard({ data, loading }) {
       {/* Title beside icon */}
       <Box ml={10} mb={2}>
         <Typography variant="h6" fontWeight="bold">
-          Line chart
+          Line Chart
         </Typography>
         <Typography variant="caption" color="text.secondary" fontWeight={500}>
           {data.title}
@@ -79,9 +99,9 @@ export default function LineChartCard({ data, loading }) {
       </Box>
 
       {/* Chart */}
-      <Box height={280}>
+      <Box sx={{ height: 280 }}>
         <Line data={chartData} options={options} />
       </Box>
-    </Paper>
+    </Box>
   );
 }

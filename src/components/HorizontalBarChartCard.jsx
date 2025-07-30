@@ -1,14 +1,22 @@
-// src/components/HorizontalBarChartCard.jsx
-import { Paper, Box, Typography, Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton, useTheme, Paper } from "@mui/material";
 import AlignHorizontalLeftIcon from "@mui/icons-material/AlignHorizontalLeft";
 import { Bar } from "react-chartjs-2";
 
 export default function HorizontalBarChartCard({ data, loading }) {
+  const theme = useTheme();
+
   if (loading || !data) {
     return (
-      <Paper elevation={3} sx={{ borderRadius: 4, p: 2 }}>
-        <Skeleton variant="rectangular" height={300} />
-      </Paper>
+      <Box
+        sx={{
+          borderRadius: 4,
+          p: 2,
+          height: 380,
+          background: theme.palette.background.paper,
+        }}
+      >
+        <Skeleton variant="rectangular" height="100%" />
+      </Box>
     );
   }
 
@@ -24,7 +32,7 @@ export default function HorizontalBarChartCard({ data, loading }) {
   };
 
   const options = {
-    indexAxis: "y", // ✅ Horizontal bars
+    indexAxis: "y",
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -34,13 +42,12 @@ export default function HorizontalBarChartCard({ data, loading }) {
       y: {
         beginAtZero: true,
         grid: {
-          display: true,
           drawBorder: false,
           borderDash: [5, 5],
-          color: "#cfd8dc",
+          color: theme.palette.divider,
         },
         ticks: {
-          color: "#8898aa",
+          color: theme.palette.text.secondary,
         },
       },
       x: {
@@ -48,18 +55,25 @@ export default function HorizontalBarChartCard({ data, loading }) {
           display: false,
         },
         ticks: {
-          color: "#8898aa",
+          color: theme.palette.text.secondary,
         },
       },
     },
   };
 
   return (
-    <Paper
+    <Box
+      component={Paper}
       elevation={3}
-      sx={{ borderRadius: 4, p: 3, pt: 1, height: 380, position: "relative" }}
+      sx={{
+        borderRadius: 4,
+        p: 3,
+        pt: 1,
+        height: 380,
+        position: "relative",
+        background: theme.palette.background.paper,
+      }}
     >
-      {/* Floating Icon */}
       <Box
         sx={{
           position: "absolute",
@@ -80,7 +94,6 @@ export default function HorizontalBarChartCard({ data, loading }) {
         <AlignHorizontalLeftIcon fontSize="large" />
       </Box>
 
-      {/* Title beside icon */}
       <Box ml={10} mb={2}>
         <Typography variant="h6" fontWeight="bold">
           Horizontal bar chart
@@ -90,10 +103,9 @@ export default function HorizontalBarChartCard({ data, loading }) {
         </Typography>
       </Box>
 
-      {/* Chart */}
-      <Box height={280}>
+      <Box sx={{ height: 280 }}>
         <Bar data={chartData} options={options} />
       </Box>
-    </Paper>
+    </Box>
   );
 }

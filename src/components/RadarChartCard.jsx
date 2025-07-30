@@ -1,5 +1,4 @@
-// src/components/RadarChartCard.jsx
-import { Paper, Box, Typography, Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton, useTheme, Paper } from "@mui/material";
 import RadarIcon from "@mui/icons-material/Radar";
 import { Radar } from "react-chartjs-2";
 import {
@@ -22,11 +21,20 @@ ChartJS.register(
 );
 
 export default function RadarChartCard({ data, loading }) {
+  const theme = useTheme();
+
   if (loading || !data) {
     return (
-      <Paper elevation={3} sx={{ borderRadius: 4, p: 2 }}>
-        <Skeleton variant="rectangular" height={300} />
-      </Paper>
+      <Box
+        sx={{
+          borderRadius: 4,
+          p: 2,
+          height: 460,
+          background: theme.palette.background.paper,
+        }}
+      >
+        <Skeleton variant="rectangular" height="100%" />
+      </Box>
     );
   }
 
@@ -81,7 +89,8 @@ export default function RadarChartCard({ data, loading }) {
   };
 
   return (
-    <Paper
+    <Box
+      component={Paper}
       elevation={3}
       sx={{
         borderRadius: 4,
@@ -89,6 +98,7 @@ export default function RadarChartCard({ data, loading }) {
         pt: 1,
         height: 460,
         position: "relative",
+        background: theme.palette.background.paper,
         display: "flex",
         flexDirection: "column",
       }}
@@ -127,6 +137,6 @@ export default function RadarChartCard({ data, loading }) {
       <Box height={360}>
         <Radar data={chartData} options={options} />
       </Box>
-    </Paper>
+    </Box>
   );
 }

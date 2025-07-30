@@ -3,6 +3,7 @@ import {
   AvatarGroup,
   Box,
   Button,
+  Divider,
   FormControlLabel,
   Grid,
   IconButton,
@@ -11,18 +12,19 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import profileBgImg from "../img/profile.jpg";
+import profileBgImg from "../img/profile-bg.jpg";
 import profileImg from "../img/profile.jpg";
 import { Edit, Facebook, Instagram, Twitter } from "@mui/icons-material";
 
 import { useEffect, useState } from "react";
+import ProfileTabs from "../components/ProfileTabs";
 
 const PROFILE_URL = "http://localhost:3000/profile_data";
 
-const Profile = () => {
-  const p = useTheme().palette;
+export default function Profile() {
+  const theme = useTheme();
   const [profileData, setProfileData] = useState();
-
+  const [tabValue, setTabValue] = useState(0);
   useEffect(() => {
     const fetchProfile = async () => {
       const res = await fetch(PROFILE_URL);
@@ -37,7 +39,8 @@ const Profile = () => {
       <Box
         sx={{
           position: "relative",
-          mx: "24px",
+          mr: "19px",
+          ml: "-1px",
           "&::before": {
             content: '""',
             bgcolor: "rgba(73, 163, 241, 0.4)",
@@ -64,13 +67,14 @@ const Profile = () => {
         />
       </Box>
 
-      <Paper
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          bgcolor: p.bg2,
+          bgcolor: theme.palette.background.paper,
           p: "16px",
-          mx: "48px",
+          mr: "48px",
+          ml: "30px",
           borderRadius: "10px",
           position: "relative",
           top: -70,
@@ -81,35 +85,56 @@ const Profile = () => {
           sx={{
             display: "flex",
             alignItems: "center",
+            justifyContent: "space-between", // distribute left and right
+            flexWrap: "wrap",
             gap: "16px",
             mb: "40px",
           }}
         >
-          <Box
-            component={"img"}
-            src={profileImg}
-            sx={{ width: "80px", borderRadius: "50%" }}
-          />
-
-          <Box>
-            <Typography
-              variant="h6"
-              sx={{ color: p.text1, fontWeight: "bold" }}
-            >
-              Richard Davis
-            </Typography>
-            <Typography sx={{ color: p.text4, fontSize: "0.9rem" }}>
-              CEO / Co-Founder
-            </Typography>
+          {/* Left: Profile Picture + Name */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <Box
+              component={"img"}
+              src={profileImg}
+              sx={{ width: "80px", borderRadius: "50%" }}
+            />
+            <Box>
+              <Typography
+                variant="h6"
+                sx={{ color: theme.palette.text.primary, fontWeight: "bold" }}
+              >
+                Richard Davis
+              </Typography>
+              <Typography
+                sx={{ color: theme.palette.text.secondary, fontSize: "0.9rem" }}
+              >
+                a CEO / Co-Founder
+              </Typography>
+            </Box>
           </Box>
+
+          {/* Right: Profile Tabs */}
+          <ProfileTabs
+            value={tabValue}
+            onChange={(e, newValue) => setTabValue(newValue)}
+          />
         </Box>
 
-        <Grid container spacing={3} sx={{ p: "16px" }}>
-          <Grid item size={{ xs: 12, sm: 6, lg: 4 }}>
+        {/* Main Sections: Platform Settings, Profile Information, Conversations */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", lg: "row" },
+            gap: 0,
+            px: 2,
+          }}
+        >
+          <Box sx={{ flex: 1, minWidth: 0, px: { lg: 2 } }}>
+            {/* Platform Settings */}
             <Typography
               variant="h6"
               sx={{
-                color: p.text1,
+                color: theme.palette.text.primary,
                 fontSize: "1rem",
                 fontWeight: "bold",
                 mb: "20px",
@@ -121,7 +146,7 @@ const Profile = () => {
               <Typography
                 sx={{
                   textTransform: "uppercase",
-                  color: p.text4,
+                  color: theme.palette.text.secondary,
                   fontSize: "0.7rem",
                   fontWeight: "bold",
                 }}
@@ -129,38 +154,55 @@ const Profile = () => {
                 account
               </Typography>
 
-              <FormControlLabel
-                label={
-                  <Typography sx={{ color: p.text4, fontSize: "0.9rem" }}>
-                    Email me when someone follows me
-                  </Typography>
-                }
-                control={<Switch color="info" />}
-                sx={{ fontSize: "0.8rem" }}
-              />
-              <FormControlLabel
-                label={
-                  <Typography sx={{ color: p.text4, fontSize: "0.9rem" }}>
-                    Email me when someone answers on my post
-                  </Typography>
-                }
-                control={<Switch color="info" />}
-                sx={{ fontSize: "0.8rem" }}
-              />
-              <FormControlLabel
-                label={
-                  <Typography sx={{ color: p.text4, fontSize: "0.9rem" }}>
-                    Email me when someone mentions me
-                  </Typography>
-                }
-                control={<Switch color="info" />}
-                sx={{ fontSize: "0.8rem" }}
-              />
+              {[
+                "Email me when someone follows me",
+                "Email me when someone answers on my post",
+                "Email me when someone mentions me",
+              ].map((label, idx) => (
+                <FormControlLabel
+                  key={label}
+                  label={
+                    <Typography
+                      sx={{
+                        color: theme.palette.text.secondary,
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      {label}
+                    </Typography>
+                  }
+                  control={
+                    <Switch
+                      color="info"
+                      defaultChecked={idx === 0 || idx === 2}
+                      sx={{
+                        "& .MuiSwitch-switchBase.Mui-checked": {
+                          color: "#fff",
+                        },
+                        "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                          {
+                            backgroundColor: "#3B3B47",
+                            opacity: 1,
+                            border: "1.5px solid #3B3B47",
+                          },
+                        "& .MuiSwitch-track": {
+                          backgroundColor: theme.palette.grey[300],
+                          opacity: 1,
+                        },
+                        "& .MuiSwitch-thumb": {
+                          boxShadow: "0 2px 6px 0 rgba(0,0,0,0.15)",
+                        },
+                      }}
+                    />
+                  }
+                  sx={{ fontSize: "0.8rem" }}
+                />
+              ))}
 
               <Typography
                 sx={{
                   textTransform: "uppercase",
-                  color: p.text4,
+                  color: theme.palette.text.secondary,
                   fontSize: "0.7rem",
                   fontWeight: "bold",
                   mt: "20px",
@@ -169,37 +211,65 @@ const Profile = () => {
                 application
               </Typography>
 
-              <FormControlLabel
-                label={
-                  <Typography sx={{ color: p.text4, fontSize: "0.9rem" }}>
-                    New launches and projects
-                  </Typography>
-                }
-                control={<Switch color="info" />}
-                sx={{ fontSize: "0.8rem" }}
-              />
-              <FormControlLabel
-                label={
-                  <Typography sx={{ color: p.text4, fontSize: "0.9rem" }}>
-                    Monthly product updates
-                  </Typography>
-                }
-                control={<Switch color="info" />}
-                sx={{ fontSize: "0.8rem" }}
-              />
-              <FormControlLabel
-                label={
-                  <Typography sx={{ color: p.text4, fontSize: "0.9rem" }}>
-                    Subscribe to newsletter
-                  </Typography>
-                }
-                control={<Switch color="info" />}
-                sx={{ fontSize: "0.8rem" }}
-              />
+              {[
+                "New launches and projects",
+                "Monthly product updates",
+                "Subscribe to newsletter",
+              ].map((label, idx) => (
+                <FormControlLabel
+                  key={label}
+                  label={
+                    <Typography
+                      sx={{
+                        color: theme.palette.text.secondary,
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      {label}
+                    </Typography>
+                  }
+                  control={
+                    <Switch
+                      color="info"
+                      defaultChecked={idx === 1}
+                      sx={{
+                        "& .MuiSwitch-switchBase.Mui-checked": {
+                          color: "#fff",
+                        },
+                        "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                          {
+                            backgroundColor: "#3B3B47",
+                            opacity: 1,
+                            border: "1.5px solid #3B3B47",
+                          },
+                        "& .MuiSwitch-track": {
+                          backgroundColor: theme.palette.grey[300],
+                          opacity: 1,
+                        },
+                        "& .MuiSwitch-thumb": {
+                          boxShadow: "0 2px 6px 0 rgba(0,0,0,0.15)",
+                        },
+                      }}
+                    />
+                  }
+                  sx={{ fontSize: "0.8rem" }}
+                />
+              ))}
             </Box>
-          </Grid>
+          </Box>
 
-          <Grid item size={{ xs: 12, sm: 6, lg: 4 }}>
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              display: { xs: "none", lg: "block" },
+              mx: 0,
+              borderColor: theme.palette.divider,
+            }}
+          />
+
+          <Box sx={{ flex: 1, minWidth: 0, px: { lg: 2 } }}>
+            {/* Profile Information */}
             <Box
               sx={{
                 display: "flex",
@@ -211,7 +281,7 @@ const Profile = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  color: p.text1,
+                  color: theme.palette.text.primary,
                   fontSize: "1rem",
                   fontWeight: "bold",
                 }}
@@ -220,105 +290,108 @@ const Profile = () => {
               </Typography>
 
               <IconButton>
-                <Edit sx={{ fontSize: "0.9rem", color: p.text3 }} />
+                <Edit
+                  sx={{
+                    fontSize: "0.9rem",
+                    color: theme.palette.text.secondary,
+                  }}
+                />
               </IconButton>
             </Box>
 
-            <Typography sx={{ color: p.text2, fontSize: "0.9rem", mb: "20px" }}>
+            <Typography
+              sx={{
+                color: theme.palette.text.secondary,
+                fontSize: "0.9rem",
+                mb: "20px",
+              }}
+            >
               Hi, I'm Alec Thompson, Decisions: If you can't decide, the answer
-              is no. If two equally difficult paths, choose the one more painful
-              in the short term (pain avoidance is creating an illusion of
-              equality).
+              is no...
             </Typography>
 
             <Box>
-              <Typography sx={{ fontSize: "0.9rem", mb: "16px" }}>
+              {[
+                ["Full Name", "Alec M. Thompson"],
+                ["Mobile", "(44) 123 12 34 123"],
+                ["Email", "alecthompson@mail.com"],
+                ["Location", "USA"],
+              ].map(([label, value]) => (
                 <Typography
-                  component="span"
+                  key={label}
+                  component="div"
                   sx={{
-                    color: p.text1,
-                    fontSize: "inherit",
-                    fontWeight: "bold",
+                    fontSize: "0.9rem",
+                    mb: "16px",
+                    color: theme.palette.text.secondary,
                   }}
                 >
-                  Full Name:{" "}
+                  <Typography
+                    component="span"
+                    sx={{
+                      color: theme.palette.text.primary,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {label}:{" "}
+                  </Typography>
+                  {value}
                 </Typography>
-                Alec M. Thompson
-              </Typography>
-              <Typography sx={{ fontSize: "0.9rem", mb: "16px" }}>
-                <Typography
-                  component="span"
-                  sx={{
-                    color: p.text1,
-                    fontSize: "inherit",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Mobile:{" "}
-                </Typography>
-                (44) 123 12 34 123
-              </Typography>
-              <Typography sx={{ fontSize: "0.9rem", mb: "16px" }}>
-                <Typography
-                  component="span"
-                  sx={{
-                    color: p.text1,
-                    fontSize: "inherit",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Email:{" "}
-                </Typography>
-                alecthompson@mail.com
-              </Typography>
-              <Typography sx={{ fontSize: "0.9rem", mb: "16px" }}>
-                <Typography
-                  component="span"
-                  sx={{
-                    color: p.text1,
-                    fontSize: "inherit",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Location:{" "}
-                </Typography>
-                USA
-              </Typography>
+              ))}
+
               <Typography
                 sx={{
                   fontSize: "0.9rem",
                   display: "inline-flex",
                   alignItems: "center",
+                  mb: "16px",
                 }}
+                component="div"
               >
                 <Typography
                   component="span"
-                  sx={{
-                    color: p.text1,
-                    fontSize: "inherit",
-                    fontWeight: "bold",
-                  }}
+                  sx={{ color: theme.palette.text.primary, fontWeight: "bold" }}
                 >
-                  Socials:{" "}
+                  Social:
                 </Typography>
                 <Box
                   sx={{
-                    display: "inline-block",
-                    "*": { color: p.info.main, fontSize: "1.1rem" },
-                    ":hover": { cursor: "pointer" },
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1.5,
+                    ml: 1,
                   }}
                 >
-                  <Facebook /> <Twitter /> <Instagram />
+                  <Facebook sx={{ color: "#3B5998", fontSize: 20, mr: 0.5 }} />
+                  <Twitter
+                    sx={{
+                      color: "#55ACEE",
+                      fontSize: 20,
+                      mr: 0.5,
+                    }}
+                  />
+                  <Instagram sx={{ color: "#125688", fontSize: 20 }} />
                 </Box>
               </Typography>
             </Box>
-          </Grid>
+          </Box>
 
-          <Grid item size={{ xs: 12, lg: 4 }}>
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              display: { xs: "none", lg: "block" },
+              mx: 0,
+              borderColor: theme.palette.divider,
+            }}
+          />
+
+          <Box sx={{ flex: 1, minWidth: 0, px: { lg: 2 } }}>
+            {/* Conversations */}
             <Typography
               variant="h6"
               sx={{
-                color: p.text1,
+                color: theme.palette.text.primary,
                 fontSize: "1rem",
                 fontWeight: "bold",
                 mb: "20px",
@@ -330,6 +403,7 @@ const Profile = () => {
             {profileData &&
               profileData.messages.map((msg) => (
                 <Box
+                  key={msg.name}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -351,11 +425,10 @@ const Profile = () => {
                       src={msg.img}
                       sx={{ width: "50px", borderRadius: "50%" }}
                     />
-
                     <Box sx={{ minWidth: 0 }}>
                       <Typography
                         sx={{
-                          color: p.text1,
+                          color: theme.palette.text.primary,
                           fontSize: "0.9rem",
                           fontWeight: "bold",
                         }}
@@ -365,7 +438,7 @@ const Profile = () => {
                       <Typography
                         sx={{
                           fontSize: "0.9rem",
-                          color: p.text2,
+                          color: theme.palette.text.secondary,
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
@@ -380,7 +453,7 @@ const Profile = () => {
                   <Button
                     variant="text"
                     sx={{
-                      color: p.info.main,
+                      color: "#1A73E8",
                       textTransform: "uppercase",
                       fontSize: "0.7rem",
                       fontWeight: "bold",
@@ -390,14 +463,14 @@ const Profile = () => {
                   </Button>
                 </Box>
               ))}
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
 
         <Box sx={{ p: "16px" }}>
           <Typography
             variant="h6"
             sx={{
-              color: p.text1,
+              color: theme.palette.text.primary,
               fontSize: "1rem",
               fontWeight: "bold",
             }}
@@ -406,7 +479,7 @@ const Profile = () => {
           </Typography>
           <Typography
             sx={{
-              color: p.text4,
+              color: theme.palette.text.secondary,
               fontSize: "0.9rem",
               mb: "20px",
             }}
@@ -418,6 +491,7 @@ const Profile = () => {
             {profileData &&
               profileData.projects.map((proj) => (
                 <Grid
+                  key={proj.project}
                   item
                   size={{ xs: 12, sm: 6, lg: 3 }}
                   sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
@@ -427,25 +501,31 @@ const Profile = () => {
                     src={proj.image}
                     sx={{ width: "100%", borderRadius: "10px" }}
                   />
-
-                  <Typography sx={{ color: p.text4, fontSize: "0.9rem" }}>
+                  <Typography
+                    sx={{
+                      color: theme.palette.text.secondary,
+                      fontSize: "0.9rem",
+                    }}
+                  >
                     Project #{proj.project}
                   </Typography>
-
                   <Typography
                     variant="h6"
                     sx={{
-                      color: p.text1,
+                      color: theme.palette.text.primary,
                       fontWeight: "bold",
                     }}
                   >
                     {proj.name}
                   </Typography>
-
-                  <Typography sx={{ color: p.text4, fontSize: "0.9rem" }}>
+                  <Typography
+                    sx={{
+                      color: theme.palette.text.secondary,
+                      fontSize: "0.9rem",
+                    }}
+                  >
                     {proj.description}
                   </Typography>
-
                   <Box
                     sx={{
                       display: "flex",
@@ -455,18 +535,24 @@ const Profile = () => {
                   >
                     <Button
                       variant="outlined"
-                      color="info"
+                      color="primary"
                       sx={{
                         textTransform: "uppercase",
                         fontSize: "0.8rem",
                         fontWeight: "bold",
                         borderRadius: "10px",
                         borderWidth: "1px",
+                        borderColor: "#1A71E4",
+                        color: "#1A71E4",
+                        "&:hover": {
+                          borderColor: "#1A71E4",
+                          backgroundColor: "rgba(26, 113, 228, 0.08)",
+                          color: "#1A71E4",
+                        },
                       }}
                     >
                       view project
                     </Button>
-
                     <AvatarGroup
                       sx={{
                         "& .MuiAvatar-root": {
@@ -476,19 +562,17 @@ const Profile = () => {
                         },
                       }}
                     >
-                      <Avatar src="/assets/msg1.jpg" />
-                      <Avatar src="/assets/msg2.jpg" />
-                      <Avatar src="/assets/msg3.jpg" />
-                      <Avatar src="/assets/msg4.jpg" />
+                      <Avatar src="/src/img/msg1.jpg" />
+                      <Avatar src="/src/img/msg2.jpg" />
+                      <Avatar src="/src/img/msg3.jpg" />
+                      <Avatar src="/src/img/msg4.jpg" />
                     </AvatarGroup>
                   </Box>
                 </Grid>
               ))}
           </Grid>
         </Box>
-      </Paper>
+      </Box>
     </Box>
   );
-};
-
-export default Profile;
+}

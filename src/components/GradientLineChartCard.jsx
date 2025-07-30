@@ -1,14 +1,22 @@
-// src/components/GradientLineChartCard.jsx
-import { Paper, Box, Typography, Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton, useTheme, Paper } from "@mui/material";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import { Line } from "react-chartjs-2";
 
 export default function GradientLineChartCard({ data, loading }) {
+  const theme = useTheme();
+
   if (loading || !data) {
     return (
-      <Paper elevation={3} sx={{ borderRadius: 4, p: 2 }}>
-        <Skeleton variant="rectangular" height={300} />
-      </Paper>
+      <Box
+        sx={{
+          borderRadius: 4,
+          p: 2,
+          height: 380,
+          background: theme.palette.background.paper,
+        }}
+      >
+        <Skeleton variant="rectangular" height="100%" />
+      </Box>
     );
   }
 
@@ -39,15 +47,33 @@ export default function GradientLineChartCard({ data, loading }) {
     plugins: {
       legend: { display: false },
     },
-    scales: { y: { beginAtZero: true } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: theme.palette.divider,
+          borderDash: [4],
+        },
+      },
+      x: {
+        grid: { display: false },
+      },
+    },
   };
 
   return (
-    <Paper
+    <Box
+      component={Paper}
       elevation={3}
-      sx={{ borderRadius: 4, p: 3, pt: 1, height: 380, position: "relative" }}
+      sx={{
+        borderRadius: 4,
+        p: 3,
+        pt: 1,
+        height: 380,
+        position: "relative",
+        background: theme.palette.background.paper,
+      }}
     >
-      {/* Floating Icon */}
       <Box
         sx={{
           position: "absolute",
@@ -68,7 +94,6 @@ export default function GradientLineChartCard({ data, loading }) {
         <ShowChartIcon fontSize="large" />
       </Box>
 
-      {/* Title beside icon */}
       <Box ml={10} mb={2}>
         <Typography variant="h6" fontWeight="bold">
           Line chart with gradient
@@ -78,10 +103,9 @@ export default function GradientLineChartCard({ data, loading }) {
         </Typography>
       </Box>
 
-      {/* Chart */}
-      <Box height={280}>
+      <Box sx={{ height: 280 }}>
         <Line data={chartData} options={options} />
       </Box>
-    </Paper>
+    </Box>
   );
 }

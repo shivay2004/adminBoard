@@ -1,5 +1,4 @@
-// src/components/PieChartCard.jsx
-import { Paper, Box, Typography, Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton, useTheme, Paper } from "@mui/material";
 import PieChartIcon from "@mui/icons-material/PieChart";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -7,11 +6,20 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function PieChartCard({ data, loading }) {
+  const theme = useTheme();
+
   if (loading || !data) {
     return (
-      <Paper elevation={3} sx={{ borderRadius: 4, p: 2 }}>
-        <Skeleton variant="rectangular" height={300} />
-      </Paper>
+      <Box
+        sx={{
+          borderRadius: 4,
+          p: 2,
+          height: 380,
+          background: theme.palette.background.paper,
+        }}
+      >
+        <Skeleton variant="rectangular" height="100%" />
+      </Box>
     );
   }
 
@@ -32,9 +40,7 @@ export default function PieChartCard({ data, loading }) {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        display: false, // ❌ remove legend
-      },
+      legend: { display: false },
       tooltip: {
         backgroundColor: "#000",
         bodyColor: "#fff",
@@ -48,7 +54,8 @@ export default function PieChartCard({ data, loading }) {
   };
 
   return (
-    <Paper
+    <Box
+      component={Paper}
       elevation={3}
       sx={{
         borderRadius: 4,
@@ -56,6 +63,7 @@ export default function PieChartCard({ data, loading }) {
         pt: 1,
         height: 380,
         position: "relative",
+        background: theme.palette.background.paper,
         display: "flex",
         flexDirection: "column",
       }}
@@ -90,10 +98,10 @@ export default function PieChartCard({ data, loading }) {
         </Typography>
       </Box>
 
-      {/* Bigger Chart Area */}
+      {/* Chart */}
       <Box flexGrow={1}>
         <Pie data={chartData} options={options} />
       </Box>
-    </Paper>
+    </Box>
   );
 }

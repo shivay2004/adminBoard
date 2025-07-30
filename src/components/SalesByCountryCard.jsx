@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Typography,
@@ -10,12 +9,12 @@ import {
 } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 
-import us from "../img/download.png";
-import de from "../img/download.png";
-import gb from "../img/download.png";
-import br from "../img/download.png";
-import WorldMapImage from "../img/download.png";
+import us from "../img/usa.png";
+import de from "../img/germany.png";
+import gb from "../img/britain.png";
+import br from "../img/brasil.png";
 
+import ChartGeoMap from "./ChartGeoMap";
 const flags = {
   "United States": us,
   Germany: de,
@@ -26,18 +25,16 @@ const flags = {
 export default function SalesByCountryCard({
   data = [],
   loading = false,
-  numCountries = 4, // <-- Added prop with default value
+  numCountries = 4,
 }) {
   const theme = useTheme();
 
-  // Only show the specified number of countries
   const displayedData = loading
     ? Array.from({ length: numCountries })
     : data.slice(0, numCountries);
 
   return (
-    <Paper
-      elevation={3}
+    <Box
       sx={{
         borderRadius: 3,
         p: 3,
@@ -49,9 +46,10 @@ export default function SalesByCountryCard({
         flexWrap: "wrap",
         mt: 5,
         mr: 2.4,
+        bgcolor: theme.palette.background.paper,
+        boxShadow: 3,
       }}
     >
-      {/* Left: Country Stats */}
       <Box sx={{ flex: 1, minWidth: 360 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
           {/* Floating Icon */}
@@ -63,7 +61,7 @@ export default function SalesByCountryCard({
               width: 64,
               height: 64,
               borderRadius: 2,
-              background: "linear-gradient(195deg, #49a3f1,#1e88e5)",
+              background: "linear-gradient(195deg,#66BB6A,#43A047)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -97,12 +95,18 @@ export default function SalesByCountryCard({
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               {/* Flag */}
               {loading ? (
-                <Skeleton variant="circular" width={24} height={24} />
+                <Skeleton variant="rectangular" width={32} height={24} />
               ) : (
-                <Avatar
+                <Box
+                  component="img"
                   src={flags[item.country]}
                   alt={item.country}
-                  sx={{ width: 24, height: 24 }}
+                  sx={{
+                    width: 32,
+                    height: 24,
+                    borderRadius: 1,
+                    objectFit: "cover",
+                  }}
                 />
               )}
 
@@ -159,18 +163,9 @@ export default function SalesByCountryCard({
         {loading ? (
           <Skeleton variant="rectangular" width={400} height={240} />
         ) : (
-          <img
-            src={WorldMapImage}
-            alt="World Map"
-            style={{
-              width: "100%",
-              maxWidth: 400,
-              height: "auto",
-              objectFit: "contain",
-            }}
-          />
+          <ChartGeoMap />
         )}
       </Box>
-    </Paper>
+    </Box>
   );
 }

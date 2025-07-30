@@ -58,7 +58,7 @@ export default function SalesByAgeChart({ data, loading = false }) {
   };
 
   return (
-    <Paper
+    <Box
       sx={{
         bgcolor: p.background.paper,
         borderRadius: 3,
@@ -83,6 +83,6 @@ export default function SalesByAgeChart({ data, loading = false }) {
           <Bar data={chartData} options={chartOptions} />
         )}
       </Box>
-    </Paper>
+    </Box>
   );
 }

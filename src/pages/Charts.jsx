@@ -33,7 +33,7 @@ export default function Charts() {
   return (
     <>
       {/* Line Charts */}
-      <Box p={3} display="flex" flexWrap="wrap" gap={3}>
+      <Box sx={{ p: "20px", pl: 0 }} display="flex" flexWrap="wrap" gap={3}>
         <Box flex={1} minWidth={300}>
           <LineChartCard data={get("Product Insights")} loading={loading} />
         </Box>
@@ -46,7 +46,7 @@ export default function Charts() {
       </Box>
 
       {/* Bar Charts */}
-      <Box p={3} display="flex" flexWrap="wrap" gap={3}>
+      <Box sx={{ p: "20px", pl: 0 }} display="flex" flexWrap="wrap" gap={3}>
         <Box flex={1} minWidth={300}>
           <BarChartCard
             data={get("Sales Related to Age Average")}
@@ -60,9 +60,8 @@ export default function Charts() {
           />
         </Box>
       </Box>
-
       {/* Mixed + Bubble */}
-      <Box p={3} display="flex" flexWrap="wrap" gap={3}>
+      <Box sx={{ p: "20px", pl: 0 }} display="flex" flexWrap="wrap" gap={3}>
         <Box flex={1} minWidth={300}>
           <MixedChartCard data={get("Analytics Insights")} loading={loading} />
         </Box>
@@ -73,9 +72,8 @@ export default function Charts() {
           />
         </Box>
       </Box>
-
       {/* Doughnut + Pie */}
-      <Box p={3} display="flex" flexWrap="wrap" gap={3}>
+      <Box sx={{ p: "20px", pl: 0 }} display="flex" flexWrap="wrap" gap={3}>
         <Box flex={1} minWidth={300}>
           <DoughnutChartCard
             data={get("Market Share Distribution")}
@@ -89,9 +87,8 @@ export default function Charts() {
           />
         </Box>
       </Box>
-
       {/* Radar + Polar */}
-      <Box p={3} display="flex" flexWrap="wrap" gap={3}>
+      <Box sx={{ p: "20px", pl: 0 }} display="flex" flexWrap="wrap" gap={3}>
         <Box flex={1} minWidth={300}>
           <RadarChartCard data={get("Sciences Score")} loading={loading} />
         </Box>

@@ -1,17 +1,26 @@
-// src/components/DoughnutChartCard.jsx
-import { Paper, Box, Typography, Skeleton } from "@mui/material";
+
+import { Box, Typography, Skeleton, useTheme, Paper } from "@mui/material";
 import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 
-ChartJS.register(ArcElement, Tooltip); // No Legend
+ChartJS.register(ArcElement, Tooltip);
 
 export default function DoughnutChartCard({ data, loading }) {
+  const theme = useTheme();
+
   if (loading || !data) {
     return (
-      <Paper elevation={3} sx={{ borderRadius: 4, p: 2 }}>
-        <Skeleton variant="rectangular" height={300} />
-      </Paper>
+      <Box
+        sx={{
+          borderRadius: 4,
+          p: 2,
+          height: 380,
+          background: theme.palette.background.paper,
+        }}
+      >
+        <Skeleton variant="rectangular" height="100%" />
+      </Box>
     );
   }
 
@@ -21,15 +30,15 @@ export default function DoughnutChartCard({ data, loading }) {
       {
         ...data.datasets[0],
         backgroundColor: [
-          "#1A73E8", // blue
-          "#D81B60", // pink
-          "#191919", // black
-          "#F44336", // red
-          "#42424a", // dark gray
+          "#1A73E8", 
+          "#D81B60", 
+          "#191919", 
+          "#F44336", 
+          "#42424a", 
         ],
         borderColor: "#fff",
         borderWidth: 2,
-        cutout: "40%", // Doughnut center
+        cutout: "40%", 
       },
     ],
   };
@@ -38,9 +47,7 @@ export default function DoughnutChartCard({ data, loading }) {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        display: false, // ✅ No legend
-      },
+      legend: { display: false },
       tooltip: {
         backgroundColor: "#000",
         titleColor: "#fff",
@@ -53,7 +60,8 @@ export default function DoughnutChartCard({ data, loading }) {
   };
 
   return (
-    <Paper
+    <Box
+      component={Paper}
       elevation={3}
       sx={{
         borderRadius: 4,
@@ -61,11 +69,12 @@ export default function DoughnutChartCard({ data, loading }) {
         pt: 1,
         height: 380,
         position: "relative",
+        background: theme.palette.background.paper,
         display: "flex",
         flexDirection: "column",
       }}
     >
-      {/* Floating Icon */}
+      {/*Icon */}
       <Box
         sx={{
           position: "absolute",
@@ -85,7 +94,7 @@ export default function DoughnutChartCard({ data, loading }) {
         <DonutLargeIcon fontSize="large" />
       </Box>
 
-      {/* Title beside icon */}
+      {/* Title */}
       <Box ml={10} mb={1}>
         <Typography variant="h6" fontWeight="bold">
           Doughnut chart
@@ -99,6 +108,6 @@ export default function DoughnutChartCard({ data, loading }) {
       <Box flexGrow={1}>
         <Doughnut data={chartData} options={options} />
       </Box>
-    </Paper>
+    </Box>
   );
 }

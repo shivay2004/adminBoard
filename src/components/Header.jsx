@@ -28,7 +28,7 @@ const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 export default function Header({ onToggleSidebar, collapsed }) {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery("(max-width:1200px)");
   const [scrolled, setScrolled] = useState(false);
   const sidebarWidth = collapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_WIDTH;
 
@@ -45,13 +45,12 @@ export default function Header({ onToggleSidebar, collapsed }) {
 
   return (
     <Box
-      component={Paper}
       elevation={scrolled ? 4 : 0}
       sx={{
         position: "fixed",
         top: scrolled ? 8 : 24,
-        left: sidebarWidth + 16 + 36,
-        right: 22,
+        left: isMobile ? 23 : sidebarWidth + 16 + 36,
+        right: isMobile ? 43 : 40,
         height: 64,
         zIndex: theme.zIndex.drawer + 1,
         borderRadius: 3,

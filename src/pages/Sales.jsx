@@ -63,7 +63,7 @@ export default function Sales() {
           mt: 2,
           mr: 2.4,
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: 2,
         }}
       >

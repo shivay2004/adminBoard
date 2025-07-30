@@ -1,4 +1,59 @@
 {
+  "profile_data": {
+    "messages": [
+      {
+        "img": "/src/img/msg1.jpg",
+        "name": "Sophie B.",
+        "message": "Hi, could you please provide more details about the project requirements and deadlines?"
+      },
+      {
+        "img": "/src/img/msg2.jpg",
+        "name": "Anne Marie",
+        "message": "Great job on the recent update! Can you also add support for dark mode?"
+      },
+      {
+        "img": "/src/img/msg3.jpg",
+        "name": "Ivanna",
+        "message": "I have some questions regarding the file formats and compatibility with other software."
+      },
+      {
+        "img": "/src/img/msg4.jpg",
+        "name": "Peterson",
+        "message": "Wishing you a wonderful afternoon! Let me know if you need any assistance with the tasks."
+      },
+      {
+        "img": "/src/img/msg5.jpg",
+        "name": "Nick Daniel",
+        "message": "Hello Nick!"
+      }
+    ],
+    "projects": [
+      {
+        "project": 1,
+        "name": "Modern",
+        "description": "As Uber works through a huge amount of internal management turmoil.",
+        "image": "/src/img/proj1.jpg"
+      },
+      {
+        "project": 2,
+        "name": "Scandinavian",
+        "description": "Music is something that everyone has their own specific opinion about.",
+        "image": "/src/img/proj2.jpg"
+      },
+      {
+        "project": 3,
+        "name": "Minimalist",
+        "description": "Different people have different taste, and various types of music.",
+        "image": "/src/img/proj3.jpg"
+      },
+      {
+        "project": 4,
+        "name": "Gothic",
+        "description": "Why would anyone pick blue over pink? Pink is obviously a better color.",
+        "image": "/src/img/proj4.jpg"
+      }
+    ]
+  },
   "dashboard": {
     "stats": [
       {
@@ -109,7 +164,7 @@
       { "country": "Germany", "sales": 3900, "bounce": "40.22%" },
       { "country": "Great Britain", "sales": 1400, "bounce": "23.44%" },
       { "country": "Brasil", "sales": 562, "bounce": "32.14%" },
-      { "country": "australia", "sales": 400, "bounce": "56.83%" }
+      { "country": "Australia", "sales": 400, "bounce": "56.83%" }
     ],
     "websiteViews": [
       { "day": "Mon", "views": 60 },

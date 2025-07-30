@@ -1,5 +1,4 @@
-// src/components/MixedChartCard.jsx
-import { Paper, Box, Typography, Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton, useTheme, Paper } from "@mui/material";
 import InsightsIcon from "@mui/icons-material/Insights";
 import {
   Chart as ChartJS,
@@ -26,11 +25,20 @@ ChartJS.register(
 );
 
 export default function MixedChartCard({ data, loading }) {
+  const theme = useTheme();
+
   if (loading || !data) {
     return (
-      <Paper elevation={3} sx={{ borderRadius: 4, p: 2 }}>
-        <Skeleton variant="rectangular" height={300} />
-      </Paper>
+      <Box
+        sx={{
+          borderRadius: 4,
+          p: 2,
+          height: 380,
+          background: theme.palette.background.paper,
+        }}
+      >
+        <Skeleton variant="rectangular" height="100%" />
+      </Box>
     );
   }
 
@@ -67,23 +75,38 @@ export default function MixedChartCard({ data, loading }) {
     },
     scales: {
       x: {
-        grid: { display: false },
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: theme.palette.text.secondary,
+        },
       },
       y: {
         beginAtZero: true,
         grid: {
-          drawBorder: false,
+          color: theme.palette.divider,
           borderDash: [4, 4],
-          color: "#cfd8dc",
+        },
+        ticks: {
+          color: theme.palette.text.secondary,
         },
       },
     },
   };
 
   return (
-    <Paper
+    <Box
+      component={Paper}
       elevation={3}
-      sx={{ borderRadius: 4, p: 3, pt: 1, height: 380, position: "relative" }}
+      sx={{
+        borderRadius: 4,
+        p: 3,
+        pt: 1,
+        height: 380,
+        position: "relative",
+        background: theme.palette.background.paper,
+      }}
     >
       {/* Floating Icon */}
       <Box
@@ -116,9 +139,9 @@ export default function MixedChartCard({ data, loading }) {
       </Box>
 
       {/* Chart */}
-      <Box height={280}>
+      <Box sx={{ height: 280 }}>
         <Chart type="bar" data={chartData} options={options} />
       </Box>
-    </Paper>
+    </Box>
   );
 }

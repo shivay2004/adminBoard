@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton } from "@mui/material";
 
 export default function StatCard({
   icon,
@@ -7,7 +7,7 @@ export default function StatCard({
   change,
   period,
   color,
-  loading = false, // New prop
+  loading = false,
 }) {
   const changeText =
     change > 0
@@ -19,8 +19,7 @@ export default function StatCard({
   const changeColor = change > 0 ? "#4caf50" : "text.secondary";
 
   return (
-    <Paper
-      elevation={3}
+    <Box
       sx={{
         borderRadius: 3,
         px: 2,
@@ -32,6 +31,8 @@ export default function StatCard({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        bgcolor: "background.paper",
+        boxShadow: 3,
       }}
     >
       {/* Icon badge */}
@@ -100,6 +101,6 @@ export default function StatCard({
       >
         {loading ? <Skeleton width="70%" /> : changeText}
       </Typography>
-    </Paper>
+    </Box>
   );
 }
